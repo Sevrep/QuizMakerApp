@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">QuizMakerApp</string>
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="username">USERNAME</string>
+    <string name="password">PASSWORD</string>
+    <string name="login">Login</string>
+    <string name="todo">TODO</string>
+    <string name="no_account_yet">No account yet? Click here!</string>
+</resources>
