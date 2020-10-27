@@ -4,7 +4,8 @@
     <string name="student">Student</string>
     <string name="username">USERNAME</string>
     <string name="password">PASSWORD</string>
-    <string name="login">Login</string>
+    <string name="teacher_login">TEACHER LOGIN</string>
+    <string name="student_login">STUDENT LOGIN</string>
     <string name="todo">TODO</string>
     <string name="no_account_yet">No account yet? Click here!</string>
 </resources>

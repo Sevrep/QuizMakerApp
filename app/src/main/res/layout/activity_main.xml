@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +15,7 @@
         android:animateLayoutChanges="true">
 
         <ImageView
-            android:id="@+id/iv_main_logo"
+            android:id="@+id/imgLogo"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:adjustViewBounds="true"
@@ -29,9 +28,9 @@
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_main_logo"
+            android:layout_below="@id/imgLogo"
             android:layout_marginTop="40dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
 
             <LinearLayout
@@ -63,6 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:alpha=".1"
                     android:background="@drawable/bg_btn_tea_stu"
                     android:fontFamily="@font/cabin"
                     android:shadowColor="#715741"
@@ -118,7 +118,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/bt_main_login"
+                android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linlay1"
@@ -126,18 +126,17 @@
                 android:layout_marginTop="40dp"
                 android:background="@drawable/bg_btn_login"
                 android:fontFamily="@font/cabin"
-                android:onClick="login"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
-                android:text="@string/login"
+                android:text="@string/teacher_login"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_no_account"
+                android:id="@+id/txtNoAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bt_main_login"
+                android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/cabin"
