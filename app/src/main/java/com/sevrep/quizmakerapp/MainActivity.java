@@ -68,8 +68,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 customToast("Student login.");
                 break;
             case R.id.btnLogin:
+                customToast("Clicked btnLogin.");
                 break;
             case R.id.txtNoAccount:
+                customToast("Clicked txtNoAccount.");
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());
