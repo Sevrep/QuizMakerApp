@@ -75,6 +75,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return false;
     }
 
+    public boolean checkUsernameType(String username, String type) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sqlQuery = "SELECT * FROM " +TABLE_USERS+ " WHERE username = '" +username+ "' AND type = '" +type+ "' ";
+        Cursor c = db.rawQuery(sqlQuery,null);
+        if(c.getCount() != 0){
+            return true;
+        }
+        c.close();
+        return false;
+    }
+
     public boolean loginUser(String username, String password, String type){
         SQLiteDatabase db= this.getReadableDatabase();
         String sqlQuery = "SELECT * FROM " +TABLE_USERS+ " WHERE username = '" +username+ "' AND password = '" +password+ "' AND type = '" +type+ "' ";

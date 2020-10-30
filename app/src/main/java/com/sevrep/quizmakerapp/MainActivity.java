@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnTeacher, btnStudent, btnLogin;
     private EditText edtUsername, edtPassword;
     private String loginType = "TEACHER";
-    private String adminUser = "admin";
-    private String adminPass = "admin";
     private int securityCheckCtr = 3;
 
     SharedPrefHandler sharedPrefHandler;
@@ -116,24 +114,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(username)) {
+        if ( TextUtils.isEmpty(username) ) {
             edtUsername.setError("Enter username.");
             return;
         }
-        if (TextUtils.isEmpty(password)) {
+        if ( TextUtils.isEmpty(password) ) {
             edtPassword.setError("Enter password.");
             return;
         }
 
-        if ((!username.equals(adminUser)) && (!password.equals(adminPass))) {
-            if (databaseHelper.loginUser(username, password, loginType)) {
-
+        if ( (!username.equals("admin")) && (!password.equals("admin")) ) {
+            if ( databaseHelper.loginUser(username, password, loginType) ) {
                 Cursor cursor = databaseHelper.getFullnameData(username);
-
                 sharedPrefHandler = new SharedPrefHandler(MainActivity.this);
                 sharedPrefHandler.setSharedPref("fullname", cursor.getString(cursor.getColumnIndex("fullname")));
-
-                switch (loginType) {
+                switch (cursor.getString(cursor.getColumnIndex("type"))) {
                     case "TEACHER":
                         customToast("Welcome teacher " +sharedPrefHandler.getSharedPref("fullname")+ "!");
                         Intent iTeacher = new Intent(this, TeacherActivity.class);
@@ -148,31 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     default:
                 }
-
+            } else if (!databaseHelper.checkUsernameType(username, loginType)) {
+                customToast("There is no " + loginType + " with username: " + username);
             } else {
-                if (securityCheckCtr > 0) {
-                    customToast("You have " + securityCheckCtr + " tries left before lockout!");
-                } else {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Warning!");
-                    builder.setMessage("Account locked!");
-                    builder.setCancelable(false);
-
-                    final AlertDialog alert = builder.create();
-                    alert.show();
-                    new CountDownTimer(5000, 1000) {
-                        @Override
-                        public void onTick(long l) {
-                            customToast("Please wait: " +((l/1000)+1)+ " seconds.");
-                        }
-                        @Override
-                        public void onFinish() {
-                            alert.cancel();
-                        }
-                    }.start();
-                    securityCheckCtr = 4;
-                }
-                securityCheckCtr--;
+                lockAccount();
             }
         } else {
             customToast("Welcome executor!");
@@ -180,6 +154,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(iAdmin);
             finish();
         }
+    }
+
+    private void lockAccount() {
+        if (securityCheckCtr > 0) {
+            customToast("You have " + securityCheckCtr + " tries left before lockout!");
+        } else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Warning!");
+            builder.setMessage("Account locked!");
+            builder.setCancelable(false);
+
+            final AlertDialog alert = builder.create();
+            alert.show();
+            new CountDownTimer(5000, 1000) {
+                @Override
+                public void onTick(long l) {
+                    customToast("Please wait: " + ((l / 1000) + 1) + " seconds.");
+                }
+
+                @Override
+                public void onFinish() {
+                    alert.cancel();
+                }
+            }.start();
+            securityCheckCtr = 4;
+        }
+        securityCheckCtr--;
     }
 
     public void customToast(String mensahe) {

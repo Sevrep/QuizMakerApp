@@ -103,6 +103,10 @@
                     android:importantForAutofill="no"
                     android:inputType="textPersonName"
                     android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
                     android:textColor="@color/black"
                     android:textColorHint="#C5BD98"
                     android:textSize="18sp" />
@@ -120,6 +124,10 @@
                     android:importantForAutofill="no"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:paddingStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingRight="8dp"
                     android:textColor="@color/black"
                     android:textColorHint="#C5BD98"
                     android:textSize="18sp" />
