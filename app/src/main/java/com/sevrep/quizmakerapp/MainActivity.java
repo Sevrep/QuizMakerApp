@@ -1,7 +1,10 @@
 package com.sevrep.quizmakerapp;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout rellay1;
-    Handler handler = new Handler();
+    Handler handler = new Handler(Looper.myLooper());
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -64,13 +67,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (objectId == R.id.btnLogin) {
             customToast("Clicked btnLogin.");
         } else if (objectId == R.id.txtNoAccount) {
-            customToast("Clicked txtNoAccount.");
+            Intent iSign = new Intent(this, SignActivity.class);
+            startActivity(iSign);
+            finish();
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
+                    customToast("Application closed!");
+                    finish();
+                })
+                .create()
+                .show();
+    }
+
     public void customToast(String mensahe) {
         Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
     }
+
 }
