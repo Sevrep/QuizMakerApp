@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     RelativeLayout rellay1;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
     private Button btnTeacher, btnStudent, btnLogin;
+    private String loginType = "TEACHER";
+
+    SharedPrefHandler sharedPrefHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         rellay1 = findViewById(R.id.rellay1);
-        handler.postDelayed(runnable, 2000);
+        handler.postDelayed(runnable, 3000);
 
         ImageView imgLogo = findViewById(R.id.imgLogo);
         Animation myAnimation = AnimationUtils.loadAnimation(this, R.anim.splash_animation);
@@ -48,9 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStudent.setAlpha(0.1f);
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
-        btnLogin.setText(R.string.teacher_login);
+        changeButtonText(loginType);
         TextView txtNoAccount = findViewById(R.id.txtNoAccount);
         txtNoAccount.setOnClickListener(this);
+
+        sharedPrefHandler = new SharedPrefHandler(this);
     }
 
     @Override
@@ -59,13 +66,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (objectId == R.id.btnTeacher) {
             btnTeacher.setAlpha(1f);
             btnStudent.setAlpha(0.1f);
-            btnLogin.setText(R.string.teacher_login);
+            loginType = "TEACHER";
+            changeButtonText(loginType);
         } else if (objectId == R.id.btnStudent) {
             btnStudent.setAlpha(1f);
             btnTeacher.setAlpha(0.1f);
-            btnLogin.setText(R.string.student_login);
+            loginType = "STUDENT";
+            changeButtonText(loginType);
         } else if (objectId == R.id.btnLogin) {
-            customToast("Clicked btnLogin.");
+            switch (loginType) {
+                case "TEACHER":
+                    Intent iTeacher = new Intent(this, TeacherActivity.class);
+                    startActivity(iTeacher);
+                    finish();
+                    break;
+                case "STUDENT":
+                    Intent iStudent = new Intent(this, StudentActivity.class);
+                    startActivity(iStudent);
+                    finish();
+                    break;
+                default:
+            }
         } else if (objectId == R.id.txtNoAccount) {
             Intent iSign = new Intent(this, SignActivity.class);
             startActivity(iSign);
@@ -91,6 +112,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void customToast(String mensahe) {
         Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
+    }
+
+    public void changeButtonText(String butones) {
+        String buttonText = butones + " LOGIN";
+        btnLogin.setText(buttonText);
     }
 
 }
