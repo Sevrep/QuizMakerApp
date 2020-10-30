@@ -2,13 +2,17 @@ package com.sevrep.quizmakerapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
 import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,10 +33,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rellay1.setVisibility(View.VISIBLE);
         }
     };
+
     private Button btnTeacher, btnStudent, btnLogin;
+    private EditText edtUsername, edtPassword;
     private String loginType = "TEACHER";
+    private String adminUser = "admin";
+    private String adminPass = "admin";
+    private int securityCheckCtr = 3;
 
     SharedPrefHandler sharedPrefHandler;
+    DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStudent = findViewById(R.id.btnStudent);
         btnStudent.setOnClickListener(this);
         btnStudent.setAlpha(0.1f);
+        edtUsername = findViewById(R.id.edtUsername);
+        edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
         changeButtonText(loginType);
@@ -58,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtNoAccount.setOnClickListener(this);
 
         sharedPrefHandler = new SharedPrefHandler(this);
+        databaseHelper = new DatabaseHelper(this);
     }
 
     @Override
@@ -74,19 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             loginType = "STUDENT";
             changeButtonText(loginType);
         } else if (objectId == R.id.btnLogin) {
-            switch (loginType) {
-                case "TEACHER":
-                    Intent iTeacher = new Intent(this, TeacherActivity.class);
-                    startActivity(iTeacher);
-                    finish();
-                    break;
-                case "STUDENT":
-                    Intent iStudent = new Intent(this, StudentActivity.class);
-                    startActivity(iStudent);
-                    finish();
-                    break;
-                default:
-            }
+            checkLogin();
         } else if (objectId == R.id.txtNoAccount) {
             Intent iSign = new Intent(this, SignActivity.class);
             startActivity(iSign);
@@ -108,6 +110,76 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .create()
                 .show();
+    }
+
+    public void checkLogin() {
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(username)) {
+            edtUsername.setError("Enter username.");
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            edtPassword.setError("Enter password.");
+            return;
+        }
+
+        if ((!username.equals(adminUser)) && (!password.equals(adminPass))) {
+            if (databaseHelper.loginUser(username, password, loginType)) {
+
+                Cursor cursor = databaseHelper.getFullnameData(username);
+
+                sharedPrefHandler = new SharedPrefHandler(MainActivity.this);
+                sharedPrefHandler.setSharedPref("fullname", cursor.getString(cursor.getColumnIndex("fullname")));
+
+                switch (loginType) {
+                    case "TEACHER":
+                        customToast("Welcome teacher " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                        Intent iTeacher = new Intent(this, TeacherActivity.class);
+                        startActivity(iTeacher);
+                        finish();
+                        break;
+                    case "STUDENT":
+                        customToast("Welcome " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                        Intent iStudent = new Intent(this, StudentActivity.class);
+                        startActivity(iStudent);
+                        finish();
+                        break;
+                    default:
+                }
+
+            } else {
+                if (securityCheckCtr > 0) {
+                    customToast("You have " + securityCheckCtr + " tries left before lockout!");
+                } else {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Warning!");
+                    builder.setMessage("Account locked!");
+                    builder.setCancelable(false);
+
+                    final AlertDialog alert = builder.create();
+                    alert.show();
+                    new CountDownTimer(5000, 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            customToast("Please wait: " +((l/1000)+1)+ " seconds.");
+                        }
+                        @Override
+                        public void onFinish() {
+                            alert.cancel();
+                        }
+                    }.start();
+                    securityCheckCtr = 4;
+                }
+                securityCheckCtr--;
+            }
+        } else {
+            customToast("Welcome executor!");
+            Intent iAdmin = new Intent(this, AdminActivity.class);
+            startActivity(iAdmin);
+            finish();
+        }
     }
 
     public void customToast(String mensahe) {

@@ -29,7 +29,7 @@ public class TeacherActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
 
-                    customToast("Goodbye " +sharedPrefHandler.getSharedPref("fullname")+ ".");
+                    customToast("Goodbye teacher " +sharedPrefHandler.getSharedPref("fullname")+ ".");
                     sharedPrefHandler.removeSharedPref("fullname");
 
                     Intent iMain = new Intent(this, MainActivity.class);

@@ -67,10 +67,13 @@ public class SignActivity extends AppCompatActivity {
             edtConfirm.setError("Enter confirmation password.");
             return;
         }
+
         if (type.equals("ACCOUNT TYPE")) {
             customToast("Please choose and account type.");
+        } else if (!password.equals(confirm)) {
+            customToast("Password and confirm password do not match.");
         } else {
-            if(databaseHelper.checkUsernameDuplicate(username)) {
+            if (databaseHelper.checkUsernameDuplicate(username)) {
                 customToast("Username already taken!");
             } else if (databaseHelper.checkFullnameDuplicate(fullname)) {
                 customToast("You already have an account!");
