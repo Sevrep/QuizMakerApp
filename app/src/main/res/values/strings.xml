@@ -8,4 +8,14 @@
     <string name="student_login">STUDENT LOGIN</string>
     <string name="todo">TODO</string>
     <string name="no_account_yet">No account yet? Click here!</string>
+    <string name="new_account">NEW ACCOUNT</string>
+    <string name="full_name">FULL NAME</string>
+    <string name="confirm_password">CONFIRM PASSWORD</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string-array name="acount_type_array">
+        <item>ACCOUNT TYPE</item>
+        <item>TEACHER</item>
+        <item>STUDENT</item>
+    </string-array>
+
 </resources>
