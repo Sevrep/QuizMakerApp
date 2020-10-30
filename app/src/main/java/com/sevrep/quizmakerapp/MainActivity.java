@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             rellay1.setVisibility(View.VISIBLE);
         }
     };
-    private ImageView imgLogo;
     private Button btnTeacher, btnStudent, btnLogin;
-    private TextView txtNoAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rellay1 = findViewById(R.id.rellay1);
         handler.postDelayed(runnable, 2000);
 
-        imgLogo = findViewById(R.id.imgLogo);
+        ImageView imgLogo = findViewById(R.id.imgLogo);
         Animation myAnimation = AnimationUtils.loadAnimation(this, R.anim.splash_animation);
         imgLogo.startAnimation(myAnimation);
 
@@ -48,33 +46,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
         btnLogin.setText(R.string.teacher_login);
-        txtNoAccount = findViewById(R.id.txtNoAccount);
+        TextView txtNoAccount = findViewById(R.id.txtNoAccount);
         txtNoAccount.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnTeacher:
-                btnTeacher.setAlpha(1f);
-                btnStudent.setAlpha(0.1f);
-                btnLogin.setText(R.string.teacher_login);
-                customToast("Teacher login.");
-                break;
-            case R.id.btnStudent:
-                btnStudent.setAlpha(1f);
-                btnTeacher.setAlpha(0.1f);
-                btnLogin.setText(R.string.student_login);
-                customToast("Student login.");
-                break;
-            case R.id.btnLogin:
-                customToast("Clicked btnLogin.");
-                break;
-            case R.id.txtNoAccount:
-                customToast("Clicked txtNoAccount.");
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + v.getId());
+        int objectId = v.getId();
+        if (objectId == R.id.btnTeacher) {
+            btnTeacher.setAlpha(1f);
+            btnStudent.setAlpha(0.1f);
+            btnLogin.setText(R.string.teacher_login);
+        } else if (objectId == R.id.btnStudent) {
+            btnStudent.setAlpha(1f);
+            btnTeacher.setAlpha(0.1f);
+            btnLogin.setText(R.string.student_login);
+        } else if (objectId == R.id.btnLogin) {
+            customToast("Clicked btnLogin.");
+        } else if (objectId == R.id.txtNoAccount) {
+            customToast("Clicked txtNoAccount.");
+        } else {
+            throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
