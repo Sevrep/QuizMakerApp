@@ -36,6 +36,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**USER*/
+    public Cursor getUserData(String fullname){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_USERS+" WHERE fullname ='"+fullname+"' ",null);
+        c.moveToFirst();
+        return c;
+    }
+
     public Cursor getFullnameData(String username){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM "+TABLE_USERS+" WHERE username ='"+username+"' ",null);
@@ -115,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteUserData(String fullname){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS,"fullname = '"+fullname+"' ",null);
+        // TODO delete all entries in other tables with given full name
     }
 
 }

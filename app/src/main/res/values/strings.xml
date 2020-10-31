@@ -14,6 +14,9 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="user_list">USER LIST</string>
     <string name="account_type">ACCOUNT TYPE</string>
+    <string name="update_account">UPDATE ACCOUNT</string>
+    <string name="update">UPDATE</string>
+    <string name="delete">DELETE</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>
