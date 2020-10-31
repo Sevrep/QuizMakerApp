@@ -43,6 +43,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getAllUsers(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM "+TABLE_USERS,null);
+        c.moveToFirst();
+        return c;
+    }
+
     public void createUser(String fullname, String username, String password, String type){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

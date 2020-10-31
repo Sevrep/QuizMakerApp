@@ -125,24 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if ( (!username.equals("admin")) && (!password.equals("admin")) ) {
             if ( databaseHelper.loginUser(username, password, loginType) ) {
-                Cursor cursor = databaseHelper.getFullnameData(username);
-                sharedPrefHandler = new SharedPrefHandler(MainActivity.this);
-                sharedPrefHandler.setSharedPref("fullname", cursor.getString(cursor.getColumnIndex("fullname")));
-                switch (cursor.getString(cursor.getColumnIndex("type"))) {
-                    case "TEACHER":
-                        customToast("Welcome teacher " +sharedPrefHandler.getSharedPref("fullname")+ "!");
-                        Intent iTeacher = new Intent(this, TeacherActivity.class);
-                        startActivity(iTeacher);
-                        finish();
-                        break;
-                    case "STUDENT":
-                        customToast("Welcome " +sharedPrefHandler.getSharedPref("fullname")+ "!");
-                        Intent iStudent = new Intent(this, StudentActivity.class);
-                        startActivity(iStudent);
-                        finish();
-                        break;
-                    default:
-                }
+                loginAccount(username);
             } else if (!databaseHelper.checkUsernameType(username, loginType)) {
                 customToast("There is no " + loginType + " with username: " + username);
             } else {
@@ -153,6 +136,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent iAdmin = new Intent(this, AdminActivity.class);
             startActivity(iAdmin);
             finish();
+        }
+    }
+
+    private void loginAccount(String username) {
+        Cursor cursor = databaseHelper.getFullnameData(username);
+        sharedPrefHandler.setSharedPref("fullname", cursor.getString(cursor.getColumnIndex("fullname")));
+        switch (cursor.getString(cursor.getColumnIndex("type"))) {
+            case "TEACHER":
+                customToast("Welcome teacher " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                Intent iTeacher = new Intent(this, TeacherActivity.class);
+                startActivity(iTeacher);
+                finish();
+                break;
+            case "STUDENT":
+                customToast("Welcome " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                Intent iStudent = new Intent(this, StudentActivity.class);
+                startActivity(iStudent);
+                finish();
+                break;
+            default:
         }
     }
 
