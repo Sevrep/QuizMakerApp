@@ -2,7 +2,8 @@ package com.sevrep.quizmakerapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -13,8 +14,6 @@ import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
 
 public class TeacherActivity extends AppCompatActivity {
 
-    private FloatingActionButton fab_main;
-
     SharedPrefHandler sharedPrefHandler;
 
     @Override
@@ -22,9 +21,24 @@ public class TeacherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher);
 
-        fab_main = findViewById(R.id.fab);
+        FloatingActionButton fab_main = findViewById(R.id.fab);
         fab_main.setOnClickListener(v -> {
-
+            final EditText edtSubjectNAme = new EditText(this);
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("Subject")
+                    .setMessage("What do you want to do next?")
+                    .setView(edtSubjectNAme)
+                    .setPositiveButton("Add", (dialog1, which) -> {
+                        String subjectName = edtSubjectNAme.getText().toString().trim();
+                        if (TextUtils.isEmpty(subjectName)) {
+                            customToast("Enter subject name.");
+                        } else {
+                            customToast(subjectName + " saved to database.");
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .create();
+            dialog.show();
         });
 
         sharedPrefHandler = new SharedPrefHandler(this);
