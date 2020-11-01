@@ -121,7 +121,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void deleteUserData(String fullname){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_USERS,"fullname = '"+fullname+"' ",null);
+        db.delete(TABLE_USERS,"fullname = '" + fullname + "' ",null);
         // TODO delete all entries in other tables with given full name
     }
 
