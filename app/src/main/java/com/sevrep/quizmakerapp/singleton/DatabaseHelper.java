@@ -14,9 +14,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "myDB.db";
     private static final String TABLE_USERS = "tblUserAccount";
+    private static final String TABLE_SUBJECT = "tblSubject";
 
     public DatabaseHelper(Context context){
-        super(context,DB_NAME,null,6);
+        super(context,DB_NAME,null,7);
         c = context;
     }
 
@@ -28,10 +29,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.e("DATABASEHELPER ", "Users table creation error.", e);
         }
+        try {
+            db.execSQL("CREATE TABLE " + TABLE_SUBJECT + "(subjectid integer primary key autoincrement, subjectname text, subjectteacher text)");
+            Toast.makeText(c, "Subject table created successfully.", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e("DATABASEHELPER ", "Subject table creation error.", e);
+        }
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBJECT);
         onCreate(db);
     }
 
@@ -123,6 +131,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS,"fullname = '" + fullname + "' ",null);
         // TODO delete all entries in other tables with given full name
+    }
+
+    /**SUBJECT*/
+    public Cursor getAllSubjects(String subjectteacher){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM "+ TABLE_SUBJECT +" WHERE subjectteacher = '"+subjectteacher+"' ",null);
+        c.moveToFirst();
+        return c;
+    }
+
+    public void createSubject(String subjectname, String subjectteacher){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("subjectname", subjectname);
+        cv.put("subjectteacher", subjectteacher);
+        db.insert(TABLE_SUBJECT, null, cv);
+        Toast.makeText(c, subjectname+ " added to database.", Toast.LENGTH_LONG).show();
     }
 
 }
