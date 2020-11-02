@@ -150,4 +150,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Toast.makeText(c, subjectname+ " added to database.", Toast.LENGTH_LONG).show();
     }
 
+    public Cursor getSubjectData(int subjectid) {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_SUBJECT + " WHERE subjectid ='" + subjectid + "' ",null);
+        c.moveToFirst();
+        return c;
+    }
 }

@@ -41,13 +41,13 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
 
         FloatingActionButton fab_main = findViewById(R.id.fab);
         fab_main.setOnClickListener(v -> {
-            final EditText edtSubjectNAme = new EditText(this);
+            final EditText edtSubjectName = new EditText(this);
             AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Subject")
                     .setMessage("Enter subject name.")
-                    .setView(edtSubjectNAme)
+                    .setView(edtSubjectName)
                     .setPositiveButton("Add", (dialog1, which) -> {
-                        String subjectName = edtSubjectNAme.getText().toString().trim();
+                        String subjectName = edtSubjectName.getText().toString().trim();
                         if (TextUtils.isEmpty(subjectName)) {
                             customToast("Enter subject name.");
                         } else {
@@ -90,9 +90,12 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
     @Override
     public void onItemClick(int position) {
         Subject clickedSubject = subjectList.get(position);
-        customToast("ID: " +clickedSubject.getSubjectid()+ "\n"
-                + "NAME: " +clickedSubject.getSubjectname()+ "\n"
-                + "TEACHER: " +clickedSubject.getSubjectteacher());
+        int pageSubjectId = clickedSubject.getSubjectid();
+
+        Intent iTeacherUpdate = new Intent(this, TeacherUpdateActivity.class);
+        iTeacherUpdate.putExtra("extra_subjectid", pageSubjectId);
+        startActivity(iTeacherUpdate);
+        finish();
     }
 
     private void loadSubjects() {
