@@ -15,9 +15,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "myDB.db";
     private static final String TABLE_USERS = "tblUserAccount";
     private static final String TABLE_SUBJECT = "tblSubject";
+    private static final String TABLE_QUESTION_SUBJECT = "tblQuestionSubject";
+    private static final String TABLE_QUESTION = "tblQuestion";
 
     public DatabaseHelper(Context context){
-        super(context,DB_NAME,null,7);
+        super(context,DB_NAME,null,8);
         c = context;
     }
 
@@ -35,11 +37,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.e("DATABASEHELPER ", "Subject table creation error.", e);
         }
+        try {
+            db.execSQL("CREATE  TABLE " + TABLE_QUESTION_SUBJECT + "(questionsubjectid integer primary key autoincrement, questionid integer, subjectid integer, fullname text)");
+            Toast.makeText(c, "Question subject table created successfully.", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e("DATABASEHELPER ", "Question subject table creation error.", e);
+        }
+        try {
+            db.execSQL("CREATE  TABLE " + TABLE_QUESTION + "(questionid integer primary key unique, questiontext text, questionchoicea text, questionchoiceb text, questionchoicec text, questionchoiced text, questionanswer text, questiontype text, subjectid integer, fullname text)");
+            Toast.makeText(c, "Question table created successfully.", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Log.e("DATABASEHELPER ", "Question table creation error.", e);
+        }
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_SUBJECT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTION_SUBJECT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_QUESTION);
         onCreate(db);
     }
 
@@ -168,4 +184,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SUBJECT,"subjectid = '" + subjectid + "' ",null);
     }
+
+
+    /**QUESTION SUBJECT*/
+    public void addQuestionToSubject(int questionid, int subjectid, String fullname){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("questionid", questionid);
+        cv.put("subjectid", subjectid);
+        cv.put("fullname", fullname);
+        db.insert(TABLE_QUESTION_SUBJECT, null, cv);
+        Toast.makeText(c, "New question: " + questionid + "\nadded to subject: " + subjectid + "\nby: " + fullname + ".", Toast.LENGTH_LONG).show();
+    }
+
+    public Cursor getAllQuestionsInThisSubject(int subjectid) {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM "
+                + TABLE_QUESTION + " INNER JOIN "
+                + TABLE_QUESTION_SUBJECT + " ON "
+                + TABLE_QUESTION + ".questionid = " + TABLE_QUESTION_SUBJECT + ".questionid WHERE "
+                + TABLE_QUESTION_SUBJECT + ".subjectid = '" + subjectid + "' ",null);
+        c.moveToFirst();
+        return c;
+    }
+
+
+    /**QUESTION*/
+    public void createTFQuestion(String questiontext, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, int subjectid, String fullname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("questiontext", questiontext);
+        cv.put("questionchoicea", questionchoicea);
+        cv.put("questionchoiceb", questionchoiceb);
+        cv.put("questionchoicec", questionchoicec);
+        cv.put("questionchoiced", questionchoiced);
+        cv.put("questionanswer", questionanswer);
+        cv.put("questiontype", questiontype);
+        cv.put("subjectid", subjectid);
+        cv.put("fullname", fullname);
+        db.insert(TABLE_QUESTION, null, cv);
+        Toast.makeText(c, "Question added to database.", Toast.LENGTH_LONG).show();
+    }
+
+    public Cursor getTFQuestionData(String questiontext) {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_QUESTION + " WHERE questiontext ='" + questiontext + "' ",null);
+        c.moveToFirst();
+        return c;
+    }
+
+
+
 }

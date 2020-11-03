@@ -3,6 +3,7 @@ package com.sevrep.quizmakerapp;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,13 +15,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sevrep.quizmakerapp.adapter.QuestionsAdapter;
+import com.sevrep.quizmakerapp.model.Questions;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public class TeacherUpdateActivity extends AppCompatActivity implements View.OnClickListener {
+public class TeacherUpdateActivity extends AppCompatActivity implements View.OnClickListener, QuestionsAdapter.OnItemClickListener {
 
     private FloatingActionButton fab_add_question, fab1_trueorfalse, fab2_multiple;
     private Animation fab_open, fab_close, fab_clock, fab_anticlock;
@@ -31,6 +38,9 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
     private DatabaseHelper databaseHelper;
     private Cursor c;
+
+    private RecyclerView recyclerView;
+    private List<Questions> questionsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,14 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         fab1_trueorfalse.setOnClickListener(this);
         fab2_multiple.setOnClickListener(this);
 
+        recyclerView = findViewById(R.id.rv_teacher_update_questionlist);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        questionsList = new ArrayList<>();
+
+        loadQuestions();
+
     }
 
     @Override
@@ -86,6 +104,11 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    @Override
+    public void onItemClick(int position) {
+
+    }
+
     public void openTrueFalseDialog() {
         c = databaseHelper.getSubjectData(subjectId);
         AlertDialog.Builder adb = new AlertDialog.Builder(TeacherUpdateActivity.this);
@@ -100,20 +123,60 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
         adb.setView(popupTrueFalse);
         adb.setPositiveButton("Add", (dialog1, which) -> {
-            String rbSelected = "";
+
+            c = databaseHelper.getSubjectData(subjectId);
+
+            String questiontext = edtQuestion.getText().toString().trim();
+            String questiontype = "trueorfalse";
+            String questionanswer = "";
+            int subjectid = subjectId;
+            String fullname = c.getString(c.getColumnIndex("subjectteacher"));
+
             if (rbnTrue.isChecked()) {
-                rbSelected = "true";
+                questionanswer = "true";
             }
             if (rbnFalse.isChecked()) {
-                rbSelected = "false";
+                questionanswer = "false";
             }
-            customToast(edtQuestion.getText().toString().trim() + "\n"
-                    + rbSelected + "\n"
-                    + "FOR FUTURE DEVELOPMENT ITO MAM.");
+            if (TextUtils.isEmpty(questiontext)) {
+                customToast("Enter a question.");
+            } else {
+                databaseHelper.createTFQuestion(questiontext, null,  null,  null,  null, questionanswer, questiontype, subjectid, fullname);
+                c = databaseHelper.getTFQuestionData(questiontext);
+                int questionid = c.getInt(c.getColumnIndex("questionid"));
+                databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
+                loadQuestions();
+            }
         });
         adb.setNegativeButton("Cancel", null);
         adb.create();
         adb.show();
+    }
+
+    private void loadQuestions() {
+        questionsList.clear();
+        Cursor cursor = databaseHelper.getAllQuestionsInThisSubject(subjectId);
+        if (cursor.moveToFirst()) {
+            do {
+                Questions questions = new Questions(
+                        cursor.getInt(cursor.getColumnIndex("questionid")),
+                        cursor.getString(cursor.getColumnIndex("questiontext")),
+                        cursor.getString(cursor.getColumnIndex("questionchoicea")),
+                        cursor.getString(cursor.getColumnIndex("questionchoiceb")),
+                        cursor.getString(cursor.getColumnIndex("questionchoicec")),
+                        cursor.getString(cursor.getColumnIndex("questionchoiced")),
+                        cursor.getString(cursor.getColumnIndex("questionanswer")),
+                        cursor.getString(cursor.getColumnIndex("questiontype")),
+                        cursor.getInt(cursor.getColumnIndex("subjectid")),
+                        cursor.getString(cursor.getColumnIndex("fullname"))
+                );
+                questionsList.add(questions);
+            } while (cursor.moveToNext());
+        }
+
+        QuestionsAdapter questionsAdapter = new QuestionsAdapter(this, questionsList);
+        recyclerView.setAdapter(questionsAdapter);
+        QuestionsAdapter.setOnItemClickListener(this);
     }
 
     public void hideFabMenu() {
@@ -147,5 +210,6 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     public void customToast(String mensahe) {
         Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
     }
+
 
 }

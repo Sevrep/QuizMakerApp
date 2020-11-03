@@ -21,6 +21,8 @@
     <string name="subject_name">SUBJECT NAME</string>
     <string name="multiple_choice">Multiple Choice</string>
     <string name="true_or_false">True or False</string>
+    <string name="question_text">QUESTION TEXT</string>
+    <string name="question_answer">QUESTION ANSWER</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>

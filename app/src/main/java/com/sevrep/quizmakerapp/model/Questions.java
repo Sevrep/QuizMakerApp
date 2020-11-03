@@ -10,10 +10,19 @@ public class Questions {
     private String questionchoiced;
     private String questionanswer;
     private String questiontype;
-    private String subjectid;
-    private String subjectteacher;
+    private int subjectid;
+    private String fullname;
 
-    public Questions(int questionid, String questiontext, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, String subjectid, String subjectteacher) {
+    public Questions() {
+    }
+
+    public Questions(int questionid, String questiontext, String questionanswer) {
+        this.questionid = questionid;
+        this.questiontext = questiontext;
+        this.questionanswer = questionanswer;
+    }
+
+    public Questions(int questionid, String questiontext, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, int subjectid, String fullname) {
         this.questionid = questionid;
         this.questiontext = questiontext;
         this.questionchoicea = questionchoicea;
@@ -23,7 +32,7 @@ public class Questions {
         this.questionanswer = questionanswer;
         this.questiontype = questiontype;
         this.subjectid = subjectid;
-        this.subjectteacher = subjectteacher;
+        this.fullname = fullname;
     }
 
     public int getQuestionid() {
@@ -58,11 +67,11 @@ public class Questions {
         return questiontype;
     }
 
-    public String getSubjectid() {
+    public int getSubjectid() {
         return subjectid;
     }
 
-    public String getSubjectteacher() {
-        return subjectteacher;
+    public String getFullname() {
+        return fullname;
     }
 }
