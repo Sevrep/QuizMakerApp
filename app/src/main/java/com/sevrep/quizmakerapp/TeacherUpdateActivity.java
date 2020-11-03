@@ -27,7 +27,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     private TextView textview_trueorfalse, textview_multiple;
     private int subjectId;
 
-    private Boolean isOpen = false;
+    private Boolean fabMenuIsOpen = false;
 
     private DatabaseHelper databaseHelper;
     private Cursor c;
@@ -72,7 +72,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         int objectId = v.getId();
         if (objectId == R.id.fab_add_question) {
-            if (isOpen) {
+            if (fabMenuIsOpen) {
                 hideFabMenu();
             } else {
                 openFabMenu();
@@ -94,7 +94,6 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
         LayoutInflater layoutInflater = LayoutInflater.from(TeacherUpdateActivity.this);
         View popupTrueFalse = layoutInflater.inflate(R.layout.activity_teacher_update_truefalse_dialog, null);
-        EditText edtQuestionNumber = popupTrueFalse.findViewById(R.id.edtQuestionNumber);
         EditText edtQuestion = popupTrueFalse.findViewById(R.id.edtQuestion);
         RadioButton rbnTrue = popupTrueFalse.findViewById(R.id.rbnTrue);
         RadioButton rbnFalse = popupTrueFalse.findViewById(R.id.rbnFalse);
@@ -108,8 +107,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             if (rbnFalse.isChecked()) {
                 rbSelected = "false";
             }
-            customToast(edtQuestionNumber.getText().toString().trim() + "\n"
-                    + edtQuestion.getText().toString().trim() + "\n"
+            customToast(edtQuestion.getText().toString().trim() + "\n"
                     + rbSelected + "\n"
                     + "FOR FUTURE DEVELOPMENT ITO MAM.");
         });
@@ -126,7 +124,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         fab_add_question.startAnimation(fab_anticlock);
         fab2_multiple.setClickable(false);
         fab1_trueorfalse.setClickable(false);
-        isOpen = false;
+        fabMenuIsOpen = false;
     }
 
     public void openFabMenu() {
@@ -137,7 +135,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         fab_add_question.startAnimation(fab_clock);
         fab2_multiple.setClickable(true);
         fab1_trueorfalse.setClickable(true);
-        isOpen = true;
+        fabMenuIsOpen = true;
     }
 
     public void goToTeacher() {

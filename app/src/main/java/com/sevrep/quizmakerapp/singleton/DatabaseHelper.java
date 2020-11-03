@@ -130,7 +130,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteUserData(String fullname){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS,"fullname = '" + fullname + "' ",null);
-        // TODO delete all entries in other tables with given full name
     }
 
     /**SUBJECT*/
@@ -155,5 +154,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_SUBJECT + " WHERE subjectid ='" + subjectid + "' ",null);
         c.moveToFirst();
         return c;
+    }
+
+    public void updateSubject(int subjectid, String subjectname) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("subjectname", subjectname);
+        db.update(TABLE_SUBJECT,cv,"subjectid = '" + subjectid + "' ",null);
+        Toast.makeText(c, "Subject " + subjectid + " updated successfully.", Toast.LENGTH_LONG).show();
+    }
+
+    public void deleteSubject(int subjectid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_SUBJECT,"subjectid = '" + subjectid + "' ",null);
     }
 }

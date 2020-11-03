@@ -27,8 +27,8 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
     private List<Subject> subjectList;
     private String subjectTeacher;
 
-    SharedPrefHandler sharedPrefHandler;
-    DatabaseHelper databaseHelper;
+    private SharedPrefHandler sharedPrefHandler;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,46 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
         iTeacherUpdate.putExtra("extra_subjectid", pageSubjectId);
         startActivity(iTeacherUpdate);
         finish();
+    }
+
+    @Override
+    public void onMoreClick(int position) {
+        Subject clickedSubject = subjectList.get(position);
+        final EditText edtSubjectName = new EditText(this);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Edit subject name")
+                .setMessage(clickedSubject.getSubjectname())
+                .setView(edtSubjectName)
+                .setPositiveButton("Update", (dialog1, which) -> {
+                    String subjectName = edtSubjectName.getText().toString().trim();
+                    if (TextUtils.isEmpty(subjectName)) {
+                        customToast("Enter subject name.");
+                    } else {
+                        int subjectId = clickedSubject.getSubjectid();
+                        databaseHelper.updateSubject(subjectId, subjectName);
+                        loadSubjects();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
+    }
+
+    @Override
+    public void onDelClick(int position) {
+        Subject clickedSubject = subjectList.get(position);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("WARNING!!!")
+                .setMessage("Are you sure you want to delete " + clickedSubject.getSubjectname() + "?")
+                .setPositiveButton("DELETE", (dialog1, which) -> {
+                    // TODO delete all questions in other tables with given subject id
+                    int subjectId = clickedSubject.getSubjectid();
+                    databaseHelper.deleteSubject(subjectId);
+                    loadSubjects();
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
     }
 
     private void loadSubjects() {
