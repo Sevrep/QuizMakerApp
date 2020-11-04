@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -97,8 +98,10 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             }
         } else if (objectId == R.id.fab1_trueorfalse) {
             openAddTrueFalseDialog();
+            hideFabMenu();
         } else if (objectId == R.id.fab2_multiple) {
             openAddMultipleChoiceDialog();
+            hideFabMenu();
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
         }
@@ -110,6 +113,78 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     }
 
     private void openAddMultipleChoiceDialog() {
+        LayoutInflater layoutInflater = LayoutInflater.from(TeacherUpdateActivity.this);
+        View popupMultipleChoice = layoutInflater.inflate(R.layout.activity_teacher_update_multiplechoice_dialog, null);
+        EditText edtQuestion = popupMultipleChoice.findViewById(R.id.edtQuestion);
+        CheckBox chbA = popupMultipleChoice.findViewById(R.id.chbA);
+        CheckBox chbB = popupMultipleChoice.findViewById(R.id.chbB);
+        CheckBox chbC = popupMultipleChoice.findViewById(R.id.chbC);
+        CheckBox chbD = popupMultipleChoice.findViewById(R.id.chbD);
+        EditText edtChoiceA = popupMultipleChoice.findViewById(R.id.edtChoiceA);
+        EditText edtChoiceB = popupMultipleChoice.findViewById(R.id.edtChoiceB);
+        EditText edtChoiceC = popupMultipleChoice.findViewById(R.id.edtChoiceC);
+        EditText edtChoiceD = popupMultipleChoice.findViewById(R.id.edtChoiceD);
+
+        c = databaseHelper.getSubjectData(subjectId);
+        AlertDialog.Builder adb = new AlertDialog.Builder(TeacherUpdateActivity.this);
+        adb.setTitle(c.getString(c.getColumnIndex("subjectname")));
+        adb.setCancelable(false);
+        adb.setView(popupMultipleChoice);
+        adb.setPositiveButton("Add", (dialog1, which) -> {
+            String questiontext = edtQuestion.getText().toString().trim();
+            String questiontexta = edtChoiceA.getText().toString().trim();
+            String questiontextb = edtChoiceB.getText().toString().trim();
+            String questiontextc = edtChoiceC.getText().toString().trim();
+            String questiontextd = edtChoiceD.getText().toString().trim();
+            String questionchoicea = "";
+            String questionchoiceb = "";
+            String questionchoicec = "";
+            String questionchoiced = "";
+            String questiontype = "multiplechoice";
+            String questionanswer = "";
+            int subjectid = subjectId;
+            String fullname = c.getString(c.getColumnIndex("subjectteacher"));
+
+            if (chbA.isChecked()) {
+                questionchoicea = "a";
+                questionanswer += questionchoicea;
+            }
+            if (chbB.isChecked()) {
+                questionchoiceb = "b";
+                questionanswer += (" " + questionchoiceb);
+            }
+            if (chbC.isChecked()) {
+                questionchoicec = "c";
+                questionanswer += (" " + questionchoicec);
+            }
+            if (chbD.isChecked()) {
+                questionchoiced = "d";
+                questionanswer += (" " + questionchoiced);
+            }
+
+            if (TextUtils.isEmpty(questiontext)) {
+                customToast("Enter a question.");
+            } else {
+                customToast(questiontext + "\n"
+                        + questionchoicea + ": " + questiontexta + "\n"
+                        + questionchoiceb + ": " + questiontextb + "\n"
+                        + questionchoicec + ": " + questiontextc + "\n"
+                        + questionchoiced + ": " + questiontextd + "\n"
+                        + "ANSWER: " + questionanswer + "\n"
+                        + "TYPE: " + questiontype + "\n"
+                        + "SUBJECT: " + subjectid + "\n"
+                        + "TEACHER: " + fullname + "\n"
+                );
+                databaseHelper.createQuestion(questiontext, questiontexta, questiontextb, questiontextc, questiontextd, questionchoicea, questionchoiceb, questionchoicec, questionchoiced, questionanswer, questiontype, subjectid, fullname);
+                c = databaseHelper.getQuestionData(questiontext);
+                int questionid = c.getInt(c.getColumnIndex("questionid"));
+                databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
+                loadQuestions();
+            }
+        });
+        adb.setNegativeButton("Cancel", null);
+        adb.create();
+        adb.show();
     }
 
     public void openAddTrueFalseDialog() {
@@ -142,8 +217,8 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             if (TextUtils.isEmpty(questiontext)) {
                 customToast("Enter a question.");
             } else {
-                databaseHelper.createTFQuestion(questiontext, null, null, null, null, null,  null,  null,  null, questionanswer, questiontype, subjectid, fullname);
-                c = databaseHelper.getTFQuestionData(questiontext);
+                databaseHelper.createQuestion(questiontext, null, null, null, null, null, null, null, null, questionanswer, questiontype, subjectid, fullname);
+                c = databaseHelper.getQuestionData(questiontext);
                 int questionid = c.getInt(c.getColumnIndex("questionid"));
                 databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
                 loadQuestions();

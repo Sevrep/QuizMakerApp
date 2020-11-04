@@ -43,26 +43,24 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
     @Override
     public void onBindViewHolder(@NonNull QuestionsAdapter.QuestionsViewHolder holder, int position) {
         Questions questions = questionsList.get(position);
+        holder.tv_update_listlayout_question_text.setText(questions.getQuestiontext());
 
-        String answer = "ANSWER: ";
+        String answer = "ANSWER: " + questions.getQuestionanswer();
+        holder.tv_update_listlayout_question_answer.setText(answer);
+
         String type;
         switch (questions.getQuestiontype()) {
             case "trueorfalse":
                 type = "TRUE OR FALSE";
-                answer = "ANSWER: " + questions.getQuestionanswer();
                 break;
             case "multiplechoice":
                 type = "MULTIPLE CHOICE";
                 break;
             default:
                 type = "TYPE: ";
-                answer = "ANSWER: ";
                 break;
         }
-        holder.tv_update_listlayout_question_text.setText(questions.getQuestiontext());
-        holder.tv_update_listlayout_question_answer.setText(answer);
         holder.tv_update_listlayout_question_type.setText(type);
-
     }
 
     @Override

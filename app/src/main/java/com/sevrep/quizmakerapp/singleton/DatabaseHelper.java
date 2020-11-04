@@ -210,7 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /**QUESTION*/
-    public void createTFQuestion(String questiontext, String questiontexta, String questiontextb, String questiontextc, String questiontextd, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, int subjectid, String fullname) {
+    public void createQuestion(String questiontext, String questiontexta, String questiontextb, String questiontextc, String questiontextd, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, int subjectid, String fullname) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("questiontext", questiontext);
@@ -230,13 +230,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Toast.makeText(c, "Question added to database.", Toast.LENGTH_LONG).show();
     }
 
-    public Cursor getTFQuestionData(String questiontext) {
+    public Cursor getQuestionData(String questiontext) {
         SQLiteDatabase db=this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + TABLE_QUESTION + " WHERE questiontext ='" + questiontext + "' ",null);
         c.moveToFirst();
         return c;
     }
-
-
 
 }
