@@ -98,7 +98,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         } else if (objectId == R.id.fab1_trueorfalse) {
             openAddTrueFalseDialog();
         } else if (objectId == R.id.fab2_multiple) {
-            customToast("Open multiple choice AlertDialog.");
+            openAddMultipleChoiceDialog();
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
         }
@@ -107,6 +107,9 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onItemClick(int position) {
 
+    }
+
+    private void openAddMultipleChoiceDialog() {
     }
 
     public void openAddTrueFalseDialog() {
@@ -139,7 +142,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             if (TextUtils.isEmpty(questiontext)) {
                 customToast("Enter a question.");
             } else {
-                databaseHelper.createTFQuestion(questiontext, null,  null,  null,  null, questionanswer, questiontype, subjectid, fullname);
+                databaseHelper.createTFQuestion(questiontext, null, null, null, null, null,  null,  null,  null, questionanswer, questiontype, subjectid, fullname);
                 c = databaseHelper.getTFQuestionData(questiontext);
                 int questionid = c.getInt(c.getColumnIndex("questionid"));
                 databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
@@ -159,6 +162,10 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
                 Questions questions = new Questions(
                         cursor.getInt(cursor.getColumnIndex("questionid")),
                         cursor.getString(cursor.getColumnIndex("questiontext")),
+                        cursor.getString(cursor.getColumnIndex("questiontexta")),
+                        cursor.getString(cursor.getColumnIndex("questiontextb")),
+                        cursor.getString(cursor.getColumnIndex("questiontextc")),
+                        cursor.getString(cursor.getColumnIndex("questiontextd")),
                         cursor.getString(cursor.getColumnIndex("questionchoicea")),
                         cursor.getString(cursor.getColumnIndex("questionchoiceb")),
                         cursor.getString(cursor.getColumnIndex("questionchoicec")),
