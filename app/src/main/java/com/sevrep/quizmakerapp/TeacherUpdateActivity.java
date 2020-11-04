@@ -96,7 +96,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
                 openFabMenu();
             }
         } else if (objectId == R.id.fab1_trueorfalse) {
-            openTrueFalseDialog();
+            openAddTrueFalseDialog();
         } else if (objectId == R.id.fab2_multiple) {
             customToast("Open multiple choice AlertDialog.");
         } else {
@@ -109,7 +109,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
     }
 
-    public void openTrueFalseDialog() {
+    public void openAddTrueFalseDialog() {
         c = databaseHelper.getSubjectData(subjectId);
         AlertDialog.Builder adb = new AlertDialog.Builder(TeacherUpdateActivity.this);
         adb.setTitle(c.getString(c.getColumnIndex("subjectname")));
@@ -123,8 +123,6 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
         adb.setView(popupTrueFalse);
         adb.setPositiveButton("Add", (dialog1, which) -> {
-
-            c = databaseHelper.getSubjectData(subjectId);
 
             String questiontext = edtQuestion.getText().toString().trim();
             String questiontype = "trueorfalse";
@@ -210,6 +208,5 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     public void customToast(String mensahe) {
         Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
     }
-
 
 }

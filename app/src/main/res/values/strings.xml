@@ -23,6 +23,16 @@
     <string name="true_or_false">True or False</string>
     <string name="question_text">QUESTION TEXT</string>
     <string name="question_answer">QUESTION ANSWER</string>
+    <string name="question_type">QUESTION TYPE</string>
+    <string name="enter_question">Enter question</string>
+    <string name="check_all_correct_answers_that_apply">Check all correct answers that apply</string>
+    <string name="trueanswer">TRUE</string>
+    <string name="falseanswer">FALSE</string>
+    <string name="enter_text_here">Enter text here.</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="c">C</string>
+    <string name="d">D</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>

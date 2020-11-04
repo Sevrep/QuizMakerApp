@@ -54,7 +54,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         return subjectList.size();
     }
 
-    public class SubjectViewHolder extends RecyclerView.ViewHolder {
+    static class SubjectViewHolder extends RecyclerView.ViewHolder {
 
         TextView tv_listlayout_subject_name;
         ImageView iv_more, iv_del;
