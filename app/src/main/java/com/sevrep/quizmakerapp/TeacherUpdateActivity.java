@@ -23,10 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sevrep.quizmakerapp.adapter.QuestionsAdapter;
 import com.sevrep.quizmakerapp.model.Questions;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
+import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TeacherUpdateActivity extends AppCompatActivity implements View.OnClickListener, QuestionsAdapter.OnItemClickListener {
 
@@ -37,6 +37,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
     private Boolean fabMenuIsOpen = false;
 
+    private SharedPrefHandler sharedPrefHandler;
     private DatabaseHelper databaseHelper;
     private Cursor c;
 
@@ -48,7 +49,8 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_update);
 
-        subjectId = Objects.requireNonNull(getIntent().getExtras()).getInt("extra_subjectid");
+        sharedPrefHandler = new SharedPrefHandler(this);
+        subjectId = Integer.parseInt(sharedPrefHandler.getSharedPref("subjectid"));
 
         databaseHelper = new DatabaseHelper(this);
         c = databaseHelper.getSubjectData(subjectId);
@@ -282,6 +284,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
     }
 
     public void goToTeacher() {
+        sharedPrefHandler.removeSharedPref("subjectid");
         Intent iTeacher = new Intent(this, TeacherActivity.class);
         startActivity(iTeacher);
         finish();

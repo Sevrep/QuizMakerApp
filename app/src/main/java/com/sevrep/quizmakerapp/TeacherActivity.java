@@ -83,7 +83,7 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
 
                     Intent iMain = new Intent(this, MainActivity.class);
                     startActivity(iMain);
-                    this.finish();
+                    finish();
                 }).create().show();
     }
 
@@ -91,9 +91,9 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
     public void onItemClick(int position) {
         Subject clickedSubject = subjectList.get(position);
         int pageSubjectId = clickedSubject.getSubjectid();
+        sharedPrefHandler.setSharedPref("subjectid", String.valueOf(pageSubjectId));
 
         Intent iTeacherUpdate = new Intent(this, TeacherUpdateActivity.class);
-        iTeacherUpdate.putExtra("extra_subjectid", pageSubjectId);
         startActivity(iTeacherUpdate);
         finish();
     }

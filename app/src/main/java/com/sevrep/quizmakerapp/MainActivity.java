@@ -114,17 +114,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String username = edtUsername.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
 
-        if ( TextUtils.isEmpty(username) ) {
+        if (TextUtils.isEmpty(username)) {
             edtUsername.setError("Enter username.");
             return;
         }
-        if ( TextUtils.isEmpty(password) ) {
+        if (TextUtils.isEmpty(password)) {
             edtPassword.setError("Enter password.");
             return;
         }
 
-        if ( (!username.equals("admin")) && (!password.equals("admin")) ) {
-            if ( databaseHelper.loginUser(username, password, loginType) ) {
+        if ((!username.equals("admin")) && (!password.equals("admin"))) {
+            if (databaseHelper.loginUser(username, password, loginType)) {
                 loginAccount(username);
             } else if (!databaseHelper.checkUsernameType(username, loginType)) {
                 customToast("There is no " + loginType + " with username: " + username);
@@ -144,13 +144,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPrefHandler.setSharedPref("fullname", cursor.getString(cursor.getColumnIndex("fullname")));
         switch (cursor.getString(cursor.getColumnIndex("type"))) {
             case "TEACHER":
-                customToast("Welcome teacher " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                customToast("Welcome teacher " + sharedPrefHandler.getSharedPref("fullname") + "!");
                 Intent iTeacher = new Intent(this, TeacherActivity.class);
                 startActivity(iTeacher);
                 finish();
                 break;
             case "STUDENT":
-                customToast("Welcome " +sharedPrefHandler.getSharedPref("fullname")+ "!");
+                customToast("Welcome " + sharedPrefHandler.getSharedPref("fullname") + "!");
                 Intent iStudent = new Intent(this, StudentActivity.class);
                 startActivity(iStudent);
                 finish();
