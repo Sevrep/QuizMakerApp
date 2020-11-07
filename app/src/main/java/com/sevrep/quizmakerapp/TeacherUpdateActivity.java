@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -118,10 +117,10 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
         LayoutInflater layoutInflater = LayoutInflater.from(TeacherUpdateActivity.this);
         View popupMultipleChoice = layoutInflater.inflate(R.layout.activity_teacher_update_multiplechoice_dialog, null);
         EditText edtQuestion = popupMultipleChoice.findViewById(R.id.edtQuestion);
-        CheckBox chbA = popupMultipleChoice.findViewById(R.id.chbA);
-        CheckBox chbB = popupMultipleChoice.findViewById(R.id.chbB);
-        CheckBox chbC = popupMultipleChoice.findViewById(R.id.chbC);
-        CheckBox chbD = popupMultipleChoice.findViewById(R.id.chbD);
+        RadioButton rdbA = popupMultipleChoice.findViewById(R.id.radio_button_a);
+        RadioButton rdbB = popupMultipleChoice.findViewById(R.id.radio_button_b);
+        RadioButton rdbC = popupMultipleChoice.findViewById(R.id.radio_button_c);
+        RadioButton rdbD = popupMultipleChoice.findViewById(R.id.radio_button_d);
         EditText edtChoiceA = popupMultipleChoice.findViewById(R.id.edtChoiceA);
         EditText edtChoiceB = popupMultipleChoice.findViewById(R.id.edtChoiceB);
         EditText edtChoiceC = popupMultipleChoice.findViewById(R.id.edtChoiceC);
@@ -138,46 +137,38 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             String questiontextb = edtChoiceB.getText().toString().trim();
             String questiontextc = edtChoiceC.getText().toString().trim();
             String questiontextd = edtChoiceD.getText().toString().trim();
-            String questionchoicea = "";
-            String questionchoiceb = "";
-            String questionchoicec = "";
-            String questionchoiced = "";
             String questiontype = "multiplechoice";
             String questionanswer = "";
             int subjectid = subjectId;
             String fullname = c.getString(c.getColumnIndex("subjectteacher"));
 
-            if (chbA.isChecked()) {
-                questionchoicea = "a";
-                questionanswer += questionchoicea;
+            if (rdbA.isChecked()) {
+                questionanswer = "a";
             }
-            if (chbB.isChecked()) {
-                questionchoiceb = "b";
-                questionanswer += (" " + questionchoiceb);
+            if (rdbB.isChecked()) {
+                questionanswer = "b";
             }
-            if (chbC.isChecked()) {
-                questionchoicec = "c";
-                questionanswer += (" " + questionchoicec);
+            if (rdbC.isChecked()) {
+                questionanswer = "c";
             }
-            if (chbD.isChecked()) {
-                questionchoiced = "d";
-                questionanswer += (" " + questionchoiced);
+            if (rdbD.isChecked()) {
+                questionanswer = "d";
             }
 
             if (TextUtils.isEmpty(questiontext)) {
                 customToast("Enter a question.");
             } else {
                 customToast(questiontext + "\n"
-                        + questionchoicea + ": " + questiontexta + "\n"
-                        + questionchoiceb + ": " + questiontextb + "\n"
-                        + questionchoicec + ": " + questiontextc + "\n"
-                        + questionchoiced + ": " + questiontextd + "\n"
+                        + questiontexta + "\n"
+                        + questiontextb + "\n"
+                        + questiontextc + "\n"
+                        + questiontextd + "\n"
                         + "ANSWER: " + questionanswer + "\n"
                         + "TYPE: " + questiontype + "\n"
                         + "SUBJECT: " + subjectid + "\n"
                         + "TEACHER: " + fullname + "\n"
                 );
-                databaseHelper.createQuestion(questiontext, questiontexta, questiontextb, questiontextc, questiontextd, questionchoicea, questionchoiceb, questionchoicec, questionchoiced, questionanswer, questiontype, subjectid, fullname);
+                databaseHelper.createQuestion(questiontext, questiontexta, questiontextb, questiontextc, questiontextd, questionanswer, questiontype, subjectid, fullname);
                 c = databaseHelper.getQuestionData(questiontext);
                 int questionid = c.getInt(c.getColumnIndex("questionid"));
                 databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
@@ -219,7 +210,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
             if (TextUtils.isEmpty(questiontext)) {
                 customToast("Enter a question.");
             } else {
-                databaseHelper.createQuestion(questiontext, null, null, null, null, null, null, null, null, questionanswer, questiontype, subjectid, fullname);
+                databaseHelper.createQuestion(questiontext, null, null, null, null, questionanswer, questiontype, subjectid, fullname);
                 c = databaseHelper.getQuestionData(questiontext);
                 int questionid = c.getInt(c.getColumnIndex("questionid"));
                 databaseHelper.addQuestionToSubject(questionid, subjectid, fullname);
@@ -243,10 +234,6 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
                         cursor.getString(cursor.getColumnIndex("questiontextb")),
                         cursor.getString(cursor.getColumnIndex("questiontextc")),
                         cursor.getString(cursor.getColumnIndex("questiontextd")),
-                        cursor.getString(cursor.getColumnIndex("questionchoicea")),
-                        cursor.getString(cursor.getColumnIndex("questionchoiceb")),
-                        cursor.getString(cursor.getColumnIndex("questionchoicec")),
-                        cursor.getString(cursor.getColumnIndex("questionchoiced")),
                         cursor.getString(cursor.getColumnIndex("questionanswer")),
                         cursor.getString(cursor.getColumnIndex("questiontype")),
                         cursor.getInt(cursor.getColumnIndex("subjectid")),

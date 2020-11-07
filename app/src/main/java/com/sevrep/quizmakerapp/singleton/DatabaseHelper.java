@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_QUESTION = "tblQuestion";
 
     public DatabaseHelper(Context context){
-        super(context,DB_NAME,null,10);
+        super(context,DB_NAME,null,11);
         c = context;
     }
 
@@ -44,7 +44,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.e("DATABASEHELPER ", "Question subject table creation error.", e);
         }
         try {
-            db.execSQL("CREATE  TABLE " + TABLE_QUESTION + "(questionid integer primary key unique, questiontext text, questiontexta text, questiontextb text, questiontextc text, questiontextd text, questionchoicea text, questionchoiceb text, questionchoicec text, questionchoiced text, questionanswer text, questiontype text, subjectid integer, fullname text)");
+            db.execSQL("CREATE  TABLE " + TABLE_QUESTION + "(questionid integer primary key unique, questiontext text, questiontexta text, questiontextb text, questiontextc text, questiontextd text, questionanswer text, questiontype text, subjectid integer, fullname text)");
             Toast.makeText(c, "Question table created successfully.", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e("DATABASEHELPER ", "Question table creation error.", e);
@@ -210,7 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /**QUESTION*/
-    public void createQuestion(String questiontext, String questiontexta, String questiontextb, String questiontextc, String questiontextd, String questionchoicea, String questionchoiceb, String questionchoicec, String questionchoiced, String questionanswer, String questiontype, int subjectid, String fullname) {
+    public void createQuestion(String questiontext, String questiontexta, String questiontextb, String questiontextc, String questiontextd, String questionanswer, String questiontype, int subjectid, String fullname) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("questiontext", questiontext);
@@ -218,10 +218,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("questiontextb", questiontextb);
         cv.put("questiontextc", questiontextc);
         cv.put("questiontextd", questiontextd);
-        cv.put("questionchoicea", questionchoicea);
-        cv.put("questionchoiceb", questionchoiceb);
-        cv.put("questionchoicec", questionchoicec);
-        cv.put("questionchoiced", questionchoiced);
         cv.put("questionanswer", questionanswer);
         cv.put("questiontype", questiontype);
         cv.put("subjectid", subjectid);
