@@ -233,4 +233,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getQuestionDataById(int questionid) {
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM " + TABLE_QUESTION + " WHERE questionid ='" + questionid + "' ",null);
+        c.moveToFirst();
+        return c;
+    }
+
 }

@@ -110,7 +110,12 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onItemClick(int position) {
+        Questions clickedQuestion = questionsList.get(position);
+        int pageQuestionId = clickedQuestion.getQuestionid();
 
+        Intent iQuestionEdit = new Intent(this, TeacherUpdateQuestionActivity.class);
+        iQuestionEdit.putExtra("extraQuestionId", String.valueOf(pageQuestionId));
+        startActivity(iQuestionEdit);
     }
 
     private void openAddMultipleChoiceDialog() {

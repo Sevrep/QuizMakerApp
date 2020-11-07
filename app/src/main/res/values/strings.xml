@@ -33,6 +33,7 @@
     <string name="b">B</string>
     <string name="c">C</string>
     <string name="d">D</string>
+    <string name="edit_question">EDIT QUESTION</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>
