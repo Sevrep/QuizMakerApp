@@ -1,4 +1,4 @@
-package com.sevrep.quizmakerapp;
+package com.sevrep.quizmakerapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.sevrep.quizmakerapp.MainActivity;
+import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
 
 import java.util.Objects;

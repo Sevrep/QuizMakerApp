@@ -1,4 +1,4 @@
-package com.sevrep.quizmakerapp;
+package com.sevrep.quizmakerapp.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.adapter.QuestionsAdapter;
 import com.sevrep.quizmakerapp.model.Questions;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;

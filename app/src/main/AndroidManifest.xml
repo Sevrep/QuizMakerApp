@@ -8,13 +8,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizMakerApp">
-        <activity android:name=".TeacherUpdateQuestionActivity"></activity>
-        <activity android:name=".TeacherUpdateActivity" />
-        <activity android:name=".AdminUpdateActivity" />
-        <activity android:name=".StudentActivity" />
-        <activity android:name=".TeacherActivity" />
-        <activity android:name=".AdminActivity" />
-        <activity android:name=".SignActivity" />
+        <activity android:name=".activity.TeacherUpdateQuestionActivity"></activity>
+        <activity android:name=".activity.TeacherUpdateActivity" />
+        <activity android:name=".activity.AdminUpdateActivity" />
+        <activity android:name=".activity.StudentActivity" />
+        <activity android:name=".activity.TeacherActivity" />
+        <activity android:name=".activity.AdminActivity" />
+        <activity android:name=".activity.SignActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

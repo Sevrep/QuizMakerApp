@@ -1,4 +1,4 @@
-package com.sevrep.quizmakerapp;
+package com.sevrep.quizmakerapp.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.sevrep.quizmakerapp.MainActivity;
+import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
 
 public class StudentActivity extends AppCompatActivity {

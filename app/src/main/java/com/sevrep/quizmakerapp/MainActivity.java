@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sevrep.quizmakerapp.activity.AdminActivity;
+import com.sevrep.quizmakerapp.activity.SignActivity;
+import com.sevrep.quizmakerapp.activity.StudentActivity;
+import com.sevrep.quizmakerapp.activity.TeacherActivity;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
 import com.sevrep.quizmakerapp.singleton.SharedPrefHandler;
 

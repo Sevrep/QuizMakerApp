@@ -1,4 +1,4 @@
-package com.sevrep.quizmakerapp;
+package com.sevrep.quizmakerapp.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,6 +9,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevrep.quizmakerapp.MainActivity;
+import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.adapter.AdminAppUserAdapter;
 import com.sevrep.quizmakerapp.model.AdminAppUser;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;

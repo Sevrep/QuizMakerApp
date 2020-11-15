@@ -1,4 +1,4 @@
-package com.sevrep.quizmakerapp;
+package com.sevrep.quizmakerapp.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
 
 public class TeacherUpdateQuestionActivity extends AppCompatActivity {
