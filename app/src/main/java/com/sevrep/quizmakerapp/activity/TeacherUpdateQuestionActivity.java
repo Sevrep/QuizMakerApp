@@ -1,14 +1,17 @@
 package com.sevrep.quizmakerapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.sevrep.quizmakerapp.R;
 import com.sevrep.quizmakerapp.singleton.DatabaseHelper;
@@ -19,8 +22,8 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
     private ConstraintLayout constraint_multiplechoice;
 
     private int questionid;
-    private String questiontype;
     private String questionanswer;
+    private String questiontype;
 
     private EditText edtQuestion;
     private RadioButton rbnTrue;
@@ -60,6 +63,11 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
         edtChoiceB = findViewById(R.id.edtChoiceB);
         edtChoiceC = findViewById(R.id.edtChoiceC);
         edtChoiceD = findViewById(R.id.edtChoiceD);
+        Button btnUpdate = findViewById(R.id.button_update);
+        Button btnDelete = findViewById(R.id.button_delete);
+
+        btnUpdate.setOnClickListener(v -> updateQuestion());
+        btnDelete.setOnClickListener(v -> deleteQuestion());
 
         edtQuestion.setText(c.getString(c.getColumnIndex("questiontext")));
 
@@ -69,6 +77,17 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
             default:
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        goToTeacherUpdate();
+    }
+
+    public void goToTeacherUpdate() {
+        Intent iTeacherUpdate = new Intent(this, TeacherUpdateActivity.class);
+        startActivity(iTeacherUpdate);
+        finish();
     }
 
     private void showMC() {
@@ -100,14 +119,55 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        goToTeacherUpdate();
+    private void deleteQuestion() {
+        customToast("DELETE button");
     }
 
-    public void goToTeacherUpdate() {
-        Intent iTeacherUpdate = new Intent(this, TeacherUpdateActivity.class);
-        startActivity(iTeacherUpdate);
-        finish();
+    private void updateQuestion() {
+        String questiontext = edtQuestion.getText().toString().trim();
+        String questionanswer = "";
+
+        switch (questiontype) {
+            case "multiplechoice":
+                String questiontexta = edtChoiceA.getText().toString().trim();
+                String questiontextb = edtChoiceB.getText().toString().trim();
+                String questiontextc = edtChoiceC.getText().toString().trim();
+                String questiontextd = edtChoiceD.getText().toString().trim();
+
+                if (rdbA.isChecked()) { questionanswer = "a"; }
+                if (rdbB.isChecked()) { questionanswer = "b"; }
+                if (rdbC.isChecked()) { questionanswer = "c"; }
+                if (rdbD.isChecked()) { questionanswer = "d"; }
+
+                if (TextUtils.isEmpty(questiontext)) {
+                    customToast("Enter a question.");
+                } else {
+                    databaseHelper.updateQuestionMC(questionid, questiontext, questiontexta, questiontextb, questiontextc, questiontextd, questionanswer);
+                    goToTeacherUpdate();
+                }
+                break;
+            case "trueorfalse":
+                if (rbnTrue.isChecked()) {
+                    questionanswer = "true";
+                }
+                if (rbnFalse.isChecked()) {
+                    questionanswer = "false";
+                }
+                if (TextUtils.isEmpty(questiontext)) {
+                    customToast("Enter a question.");
+                } else {
+                    databaseHelper.updateQuestionTF(questionid, questiontext, questionanswer);
+                    goToTeacherUpdate();
+                }
+                break;
+            default:
+        }
+
+
     }
+
+    public void customToast(String mensahe) {
+        Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
+    }
+
 }

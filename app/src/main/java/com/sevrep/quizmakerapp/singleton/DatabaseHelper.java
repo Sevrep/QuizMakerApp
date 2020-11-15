@@ -240,4 +240,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public void updateQuestionMC(int questionid, String questiontext, String questiontexta, String questiontextb, String questiontextc, String questiontextd, String questionanswer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("questiontext", questiontext);
+        cv.put("questiontexta", questiontexta);
+        cv.put("questiontextb", questiontextb);
+        cv.put("questiontextc", questiontextc);
+        cv.put("questiontextd", questiontextd);
+        cv.put("questionanswer", questionanswer);
+        db.update(TABLE_QUESTION,cv,"questionid = '" + questionid + "' ",null);
+        Toast.makeText(c, "Question " + questionid + " updated successfully.", Toast.LENGTH_LONG).show();
+    }
+
+    public void updateQuestionTF(int questionid, String questiontext, String questionanswer) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("questiontext", questiontext);
+        cv.put("questionanswer", questionanswer);
+        db.update(TABLE_QUESTION,cv,"questionid = '" + questionid + "' ",null);
+        Toast.makeText(c, "Question " + questionid + " updated successfully.", Toast.LENGTH_LONG).show();
+    }
 }
