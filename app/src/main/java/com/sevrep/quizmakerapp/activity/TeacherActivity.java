@@ -130,7 +130,6 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
                 .setTitle("WARNING!!!")
                 .setMessage("Are you sure you want to delete " + clickedSubject.getSubjectname() + "?")
                 .setPositiveButton("DELETE", (dialog1, which) -> {
-                    // TODO delete all questions in other tables with given subject id
                     int subjectId = clickedSubject.getSubjectid();
                     databaseHelper.deleteSubject(subjectId);
                     loadSubjects();

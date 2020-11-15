@@ -146,6 +146,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteUserData(String fullname){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USERS,"fullname = '" + fullname + "' ",null);
+        db.delete(TABLE_SUBJECT,"fullname = '" + fullname + "' ",null);
+        db.delete(TABLE_QUESTION_SUBJECT,"fullname = '" + fullname + "' ",null);
     }
 
     /**SUBJECT*/
@@ -183,6 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteSubject(int subjectid) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_SUBJECT,"subjectid = '" + subjectid + "' ",null);
+        db.delete(TABLE_QUESTION_SUBJECT,"subjectid = '" + subjectid + "' ",null);
     }
 
 
@@ -260,5 +263,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("questionanswer", questionanswer);
         db.update(TABLE_QUESTION,cv,"questionid = '" + questionid + "' ",null);
         Toast.makeText(c, "Question " + questionid + " updated successfully.", Toast.LENGTH_LONG).show();
+    }
+
+    public void deleteQuestion(int questionid) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_QUESTION,"questionid = '" + questionid + "' ",null);
+        db.delete(TABLE_QUESTION_SUBJECT,"questionid = '" + questionid + "' ",null);
     }
 }

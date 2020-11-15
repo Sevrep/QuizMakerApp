@@ -115,7 +115,6 @@ public class AdminUpdateActivity extends AppCompatActivity implements View.OnCli
                 .setMessage("Are you sure you want to delete this account?.")
                 .setCancelable(false)
                 .setPositiveButton("Yes", (dialog, which) -> {
-                    // TODO delete user, subjects and questions in other tables with given full name
                     databaseHelper.deleteUserData(fullname);
                     goToAdmin();
                 })

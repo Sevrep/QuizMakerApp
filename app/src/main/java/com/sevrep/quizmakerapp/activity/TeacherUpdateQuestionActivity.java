@@ -1,5 +1,6 @@
 package com.sevrep.quizmakerapp.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -120,7 +121,16 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
     }
 
     private void deleteQuestion() {
-        customToast("DELETE button");
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle("Confirmation");
+        adb.setMessage("Are you sure you want to delete this question?");
+        adb.setCancelable(false);
+        adb.setPositiveButton("Yes", (dialog, which) -> {
+            databaseHelper.deleteQuestion(questionid);
+            goToTeacherUpdate();
+        });
+        adb.setNegativeButton("No", (dialog, which) -> { });
+        adb.show();
     }
 
     private void updateQuestion() {
@@ -162,7 +172,6 @@ public class TeacherUpdateQuestionActivity extends AppCompatActivity {
                 break;
             default:
         }
-
 
     }
 
