@@ -8,7 +8,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizMakerApp">
-        <activity android:name=".activity.TeacherUpdateQuestionActivity"></activity>
+        <activity android:name=".activity.StudentQuizActivity"></activity>
+        <activity android:name=".activity.TeacherUpdateQuestionActivity" />
         <activity android:name=".activity.TeacherUpdateActivity" />
         <activity android:name=".activity.AdminUpdateActivity" />
         <activity android:name=".activity.StudentActivity" />

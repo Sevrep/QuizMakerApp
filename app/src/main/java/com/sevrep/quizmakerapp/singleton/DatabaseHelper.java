@@ -158,6 +158,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    public Cursor getAllStudentSubjects(){
+        SQLiteDatabase db=this.getReadableDatabase();
+        Cursor c = db.rawQuery("SELECT * FROM "+ TABLE_SUBJECT,null);
+        c.moveToFirst();
+        return c;
+    }
+
     public void createSubject(String subjectname, String subjectteacher){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();

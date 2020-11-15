@@ -34,6 +34,8 @@
     <string name="c">C</string>
     <string name="d">D</string>
     <string name="edit_question">EDIT QUESTION</string>
+    <string name="pick_a_subject">PICK A SUBJECT</string>
+    <string name="subject_name_quiz">SUBJECT NAME QUIZ</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>

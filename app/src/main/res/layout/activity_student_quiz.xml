@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E5B8B7"
-    tools:context=".activity.StudentActivity">
+    tools:context=".activity.StudentQuizActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -35,7 +35,7 @@
         android:shadowDx="-2"
         android:shadowDy="2"
         android:shadowRadius="1"
-        android:text="@string/pick_a_subject"
+        android:text="@string/subject_name_quiz"
         android:textColor="#000000"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -53,19 +53,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_title" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_student_subjectlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
