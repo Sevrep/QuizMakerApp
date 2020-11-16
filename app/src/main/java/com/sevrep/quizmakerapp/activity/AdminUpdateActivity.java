@@ -20,9 +20,11 @@ import java.util.Objects;
 
 public class AdminUpdateActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private String fullname, username, password, confirm;
+    private String fullname;
 
-    private EditText edtFullname, edtUsername, edtPassword, edtConfirm;
+    private EditText edtUsername;
+    private EditText edtPassword;
+    private EditText edtConfirm;
 
     DatabaseHelper databaseHelper;
 
@@ -39,7 +41,7 @@ public class AdminUpdateActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        edtFullname = findViewById(R.id.edtFullname);
+        EditText edtFullname = findViewById(R.id.edtFullname);
         edtUsername = findViewById(R.id.edtUsername);
         edtPassword = findViewById(R.id.edtPassword);
         edtConfirm = findViewById(R.id.edtConfirm);
@@ -82,9 +84,9 @@ public class AdminUpdateActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void updateAccount() {
-        username = edtUsername.getText().toString().trim();
-        password = edtPassword.getText().toString().trim();
-        confirm = edtConfirm.getText().toString().trim();
+        String username = edtUsername.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String confirm = edtConfirm.getText().toString().trim();
 
         if (TextUtils.isEmpty(username)) {
             edtUsername.setError("Enter username.");
