@@ -171,7 +171,7 @@ public class TeacherUpdateActivity extends AppCompatActivity implements View.OnC
                         + questiontextd + "\n"
                         + "ANSWER: " + questionanswer + "\n"
                         + "TYPE: " + questiontype + "\n"
-                        + "SUBJECT: " + subjectid + "\n"
+                        + "TOPIC: " + subjectid + "\n"
                         + "TEACHER: " + fullname + "\n"
                 );
                 databaseHelper.createQuestion(questiontext, questiontexta, questiontextb, questiontextc, questiontextd, questionanswer, questiontype, subjectid, fullname);

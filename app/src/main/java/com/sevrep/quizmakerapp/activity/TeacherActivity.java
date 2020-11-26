@@ -45,13 +45,13 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
         fab_main.setOnClickListener(v -> {
             final EditText edtSubjectName = new EditText(this);
             AlertDialog dialog = new AlertDialog.Builder(this)
-                    .setTitle("Subject")
-                    .setMessage("Enter subject name.")
+                    .setTitle("Topic")
+                    .setMessage("Enter topic name.")
                     .setView(edtSubjectName)
                     .setPositiveButton("Add", (dialog1, which) -> {
                         String subjectName = edtSubjectName.getText().toString().trim();
                         if (TextUtils.isEmpty(subjectName)) {
-                            customToast("Enter subject name.");
+                            customToast("Enter topic name.");
                         } else {
                             databaseHelper.createSubject(subjectName, subjectTeacher);
                             loadSubjects();
@@ -105,13 +105,13 @@ public class TeacherActivity extends AppCompatActivity implements SubjectAdapter
         Subject clickedSubject = subjectList.get(position);
         final EditText edtSubjectName = new EditText(this);
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Edit subject name")
+                .setTitle("Edit topic name")
                 .setMessage(clickedSubject.getSubjectname())
                 .setView(edtSubjectName)
                 .setPositiveButton("Update", (dialog1, which) -> {
                     String subjectName = edtSubjectName.getText().toString().trim();
                     if (TextUtils.isEmpty(subjectName)) {
-                        customToast("Enter subject name.");
+                        customToast("Enter topic name.");
                     } else {
                         int subjectId = clickedSubject.getSubjectid();
                         databaseHelper.updateSubject(subjectId, subjectName);
