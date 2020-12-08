@@ -2,6 +2,7 @@ package com.sevrep.quizmakerapp.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -122,32 +123,20 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         int objectId = v.getId();
         if (objectId == R.id.buttonTrue) {
             evaluateAnswer("true");
-            updateQuestion();
-            updateChoices();
         } else if (objectId == R.id.buttonFalse) {
             evaluateAnswer("false");
-            updateQuestion();
-            updateChoices();
         } else if (objectId == R.id.buttonA) {
             evaluateAnswer("a");
-            updateQuestion();
-            updateChoices();
         } else if (objectId == R.id.buttonB) {
             evaluateAnswer("b");
-            updateQuestion();
-            updateChoices();
         } else if (objectId == R.id.buttonC) {
             evaluateAnswer("c");
-            updateQuestion();
-            updateChoices();
         } else if (objectId == R.id.buttonD) {
             evaluateAnswer("d");
-            updateQuestion();
-            updateChoices();
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
         }
-
+        updateQuestion();
     }
 
     @Override
@@ -173,6 +162,7 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
             progressBar.incrementProgressBy(USER_PROGRESS);
             scoreText = "Score: " + studentScore + "/" + questionsList.size();
             tvRemaining.setText(scoreText);
+            updateChoices();
         }
 
     }
@@ -182,12 +172,19 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         String sagot = tanong.getQuestionanswer();
         if (sagot.equals(userGuess)) {
             customToast("Great!");
+            playSound("correctanswer");
             studentScore++;
         } else {
             String angSagotAy = "Not good!" + "\n"
                     + "The correct answer is: " + tanong.getQuestionanswer();
             customToast(angSagotAy);
+            playSound("wronganswer");
         }
+    }
+
+    private void playSound(String sound) {
+        MediaPlayer soundPlayer = MediaPlayer.create(getApplicationContext(), getResources().getIdentifier(sound, "raw", getPackageName()));
+        soundPlayer.start();
     }
 
     private void prepareQuestions() {

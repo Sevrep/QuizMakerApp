@@ -46,10 +46,14 @@ public class AdminAppUserAdapter extends RecyclerView.Adapter<AdminAppUserAdapte
     public void onBindViewHolder(@NonNull AdminAppUserViewHolder holder, int position) {
         AdminAppUser adminAppUser = adminAppUserList.get(position);
 
-        holder.tv_fullname.setText(adminAppUser.getFullname());
-        holder.tv_username.setText(adminAppUser.getUsername());
-        holder.tv_password.setText(adminAppUser.getPassword());
-        holder.tv_type.setText(adminAppUser.getType());
+        String fn = adminAppUser.getFullname();
+        String un = "Username:\n" + adminAppUser.getUsername();
+        String pw = "Password:\n" + adminAppUser.getPassword();
+        String tp = "Type:\n" + adminAppUser.getType();
+        holder.tv_fullname.setText(fn);
+        holder.tv_username.setText(un);
+        holder.tv_password.setText(pw);
+        holder.tv_type.setText(tp);
 
     }
 
