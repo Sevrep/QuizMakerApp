@@ -54,9 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rellay1 = findViewById(R.id.rellay1);
         handler.postDelayed(runnable, 3000);
 
-        ImageView imgLogo = findViewById(R.id.imgLogo);
         Animation myAnimation = AnimationUtils.loadAnimation(this, R.anim.splash_animation);
+        ImageView imgLogo = findViewById(R.id.imgLogo);
         imgLogo.startAnimation(myAnimation);
+        TextView titleName = findViewById(R.id.titleName);
+        titleName.startAnimation(myAnimation);
 
         btnTeacher = findViewById(R.id.btnTeacher);
         btnTeacher.setOnClickListener(this);

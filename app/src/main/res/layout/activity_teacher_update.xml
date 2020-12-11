@@ -27,7 +27,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/bg_btn_tea_stu"
-        android:fontFamily="@font/cabin"
         android:gravity="center"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"

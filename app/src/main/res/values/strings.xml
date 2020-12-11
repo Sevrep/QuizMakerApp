@@ -37,6 +37,7 @@
     <string name="pick_a_subject">PICK A TOPIC</string>
     <string name="subject_name_quiz">TOPIC NAME QUIZ</string>
     <string name="score">Score:</string>
+    <string name="quiz_maker">Quiz Maker</string>
     <string-array name="acount_type_array">
         <item>ACCOUNT TYPE</item>
         <item>TEACHER</item>

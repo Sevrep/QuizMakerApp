@@ -21,7 +21,6 @@
             android:id="@+id/tv_listlayout_subject_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/cabin"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:shadowColor="#715741"

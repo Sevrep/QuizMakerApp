@@ -24,19 +24,30 @@
         <ImageView
             android:id="@+id/imgLogo"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:background="#E5B8B7"
             android:contentDescription="@string/todo"
             android:scaleType="fitCenter"
             android:src="@drawable/quizmakerlogo" />
 
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/titleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imgLogo"
+            android:gravity="center"
+            android:text="@string/quiz_maker"
+            android:textColor="#000000"
+            android:textSize="56sp" />
+
         <RelativeLayout
             android:id="@+id/rellay1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/imgLogo"
-            android:layout_marginTop="40dp"
+            android:layout_below="@id/titleName"
+            android:layout_marginTop="8dp"
             android:visibility="gone">
 
 
@@ -53,7 +64,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/bg_btn_tea_stu"
-                    android:fontFamily="@font/cabin"
                     android:shadowColor="#715741"
                     android:shadowDx="-2"
                     android:shadowDy="2"
@@ -71,7 +81,6 @@
                     android:layout_weight="1"
                     android:alpha=".1"
                     android:background="@drawable/bg_btn_tea_stu"
-                    android:fontFamily="@font/cabin"
                     android:shadowColor="#715741"
                     android:shadowDx="-2"
                     android:shadowDy="2"
@@ -97,7 +106,6 @@
                     android:layout_height="50dp"
                     android:background="@drawable/et_bg"
                     android:ems="10"
-                    android:fontFamily="@font/cabin"
                     android:gravity="center"
                     android:hint="@string/username"
                     android:importantForAutofill="no"
@@ -118,7 +126,6 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/et_bg"
                     android:ems="10"
-                    android:fontFamily="@font/cabin"
                     android:gravity="center"
                     android:hint="@string/password"
                     android:importantForAutofill="no"
@@ -142,7 +149,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/bg_btn_login"
-                android:fontFamily="@font/cabin"
                 android:paddingLeft="50dp"
                 android:paddingRight="50dp"
                 android:text="@string/teacher_login"
@@ -156,14 +162,11 @@
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/cabin"
                 android:text="@string/no_account_yet"
                 android:textColor="#0000EE" />
 
         </RelativeLayout>
 
-
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
