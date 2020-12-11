@@ -43,5 +43,11 @@
         <item>TEACHER</item>
         <item>STUDENT</item>
     </string-array>
+    <string name="yes">YES!</string>
+    <string name="everything_is_working">Everything is working</string>
+    <string name="continue_">Continue</string>
+    <string name="uh_snap">UH-SNAP!</string>
+    <string name="something_just_broke">Something just broke</string>
+    <string name="go_back">Go back</string>
 
 </resources>

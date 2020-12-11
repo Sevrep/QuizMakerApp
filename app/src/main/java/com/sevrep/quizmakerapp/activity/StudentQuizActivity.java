@@ -2,6 +2,8 @@ package com.sevrep.quizmakerapp.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -42,11 +44,12 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
     private Button buttonC;
     private Button buttonD;
 
-
     private SharedPrefHandler sharedPrefHandler;
     private DatabaseHelper databaseHelper;
 
     private List<Questions> questionsList;
+
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +139,7 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
         }
-        updateQuestion();
+        //updateQuestion();
     }
 
     @Override
@@ -171,15 +174,39 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         Questions tanong = questionsList.get(indexQ);
         String sagot = tanong.getQuestionanswer();
         if (sagot.equals(userGuess)) {
-            customToast("Great!");
             playSound("correctanswer");
+            String ulo = "Great!";
+            String katawan = tanong.getQuestionanswer() + " is the correct answer!";
+            String paa = "Next Question";
+            showAlertDialog(R.layout.dialog_positive_layout, ulo, katawan, paa);
             studentScore++;
         } else {
-            String angSagotAy = "Not good!" + "\n"
-                    + "The correct answer is: " + tanong.getQuestionanswer();
-            customToast(angSagotAy);
             playSound("wronganswer");
+            String ulo = "UH-SNAP!";
+            String katawan = "The correct answer is: " + tanong.getQuestionanswer();
+            String paa = "Next Question";
+            showAlertDialog(R.layout.dialog_negative_layout, ulo, katawan, paa);
         }
+    }
+
+    private void showAlertDialog(int layout, String ulo, String katawan, String paa) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(StudentQuizActivity.this);
+        View layoutView = getLayoutInflater().inflate(layout, null);
+        TextView textView = layoutView.findViewById(R.id.textView);
+        TextView textView2 = layoutView.findViewById(R.id.textView2);
+        Button dialogButton = layoutView.findViewById(R.id.btnDialog);
+        dialogBuilder.setView(layoutView);
+        alertDialog = dialogBuilder.create();
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.show();
+        textView.setText(ulo);
+        textView2.setText(katawan);
+        dialogButton.setText(paa);
+        dialogButton.setOnClickListener(view -> {
+            alertDialog.dismiss();
+            updateQuestion();
+        });
     }
 
     private void playSound(String sound) {
