@@ -39,6 +39,8 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
     private TextView tvQuizQuestion;
     private TextView tvRemaining;
     private ProgressBar progressBar;
+    private Button buttonTrue;
+    private Button buttonFalse;
     private Button buttonA;
     private Button buttonB;
     private Button buttonC;
@@ -62,8 +64,8 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         tvRemaining = findViewById(R.id.tv_remaining);
         layoutTF = findViewById(R.id.layoutTF);
         layoutMC = findViewById(R.id.layoutMC);
-        Button buttonTrue = findViewById(R.id.buttonTrue);
-        Button buttonFalse = findViewById(R.id.buttonFalse);
+        buttonTrue = findViewById(R.id.buttonTrue);
+        buttonFalse = findViewById(R.id.buttonFalse);
         buttonA = findViewById(R.id.buttonA);
         buttonB = findViewById(R.id.buttonB);
         buttonC = findViewById(R.id.buttonC);
@@ -88,9 +90,12 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
         questionsList = new ArrayList<>();
         prepareQuestions();
 
-        Questions tanong = questionsList.get(indexQ);
-
-        tvQuizQuestion.setText(tanong.getQuestiontext());
+        try {
+            Questions tanong = questionsList.get(indexQ);
+            tvQuizQuestion.setText(tanong.getQuestiontext());
+        } catch (IndexOutOfBoundsException indexOutOfBoundsException) {
+            goToStudent();
+        }
         USER_PROGRESS = (int) Math.ceil(100.0 / questionsList.size());
         tvRemaining.setText(scoreText);
 
@@ -123,18 +128,17 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        int objectId = v.getId();
-        if (objectId == R.id.buttonTrue) {
+        if (v == buttonTrue) {
             evaluateAnswer("true");
-        } else if (objectId == R.id.buttonFalse) {
+        } else if (v == buttonFalse) {
             evaluateAnswer("false");
-        } else if (objectId == R.id.buttonA) {
+        } else if (v == buttonA) {
             evaluateAnswer("a");
-        } else if (objectId == R.id.buttonB) {
+        } else if (v == buttonB) {
             evaluateAnswer("b");
-        } else if (objectId == R.id.buttonC) {
+        } else if (v == buttonC) {
             evaluateAnswer("c");
-        } else if (objectId == R.id.buttonD) {
+        } else if (v == buttonD) {
             evaluateAnswer("d");
         } else {
             throw new IllegalStateException("Unexpected value: " + v.getId());
@@ -232,6 +236,8 @@ public class StudentQuizActivity extends AppCompatActivity implements View.OnCli
                 );
                 questionsList.add(questions);
             } while (cursor.moveToNext());
+        } else {
+            goToStudent();
         }
     }
 

@@ -56,7 +56,7 @@ public class StudentActivity extends AppCompatActivity implements StudentSubject
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
 
-                    customToast("Goodbye " + sharedPrefHandler.getSharedPref("fullname") + ".");
+                    customToast("Goodbye " + subjectStudent + ".");
                     sharedPrefHandler.removeSharedPref("fullname");
 
                     Intent iMain = new Intent(this, MainActivity.class);
@@ -80,9 +80,14 @@ public class StudentActivity extends AppCompatActivity implements StudentSubject
         int pageSubjectId = clickedSubject.getSubjectid();
         sharedPrefHandler.setSharedPref("subjectid", String.valueOf(pageSubjectId));
 
-        Intent iStudentQuiz = new Intent(this, StudentQuizActivity.class);
-        startActivity(iStudentQuiz);
-        finish();
+        Cursor cursor = databaseHelper.getAllQuestionsInThisSubject(pageSubjectId);
+        if (cursor.moveToFirst()) {
+            Intent iStudentQuiz = new Intent(this, StudentQuizActivity.class);
+            startActivity(iStudentQuiz);
+            finish();
+        } else {
+            customToast("No questions for this topic yet!");
+        }
     }
 
     private void loadSubjects() {
@@ -105,7 +110,7 @@ public class StudentActivity extends AppCompatActivity implements StudentSubject
     }
 
     public void customToast(String mensahe) {
-        Toast.makeText(this, mensahe, Toast.LENGTH_SHORT).show();
+        Toast.makeText(StudentActivity.this, mensahe, Toast.LENGTH_SHORT).show();
     }
 
 }
